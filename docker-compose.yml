@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  travel_plan_marketplace:
+    container_name: travel_plan_marketplace
+    build: 
+      context: .
+      target: base
+    ports:
+      - 12001:3000
+    tty: true
+    volumes:
+      - .:/workspace:cached
