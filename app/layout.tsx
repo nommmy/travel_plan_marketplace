@@ -1,7 +1,11 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Noto_Sans_JP } from 'next/font/google';
 
-const inter = Inter({ subsets: ['latin'] })
+const noto = Noto_Sans_JP({
+  subsets: ['latin'],
+  weight: ['400', '800'],
+  display: 'swap',
+});
 
 export const metadata = {
   title: 'Create Next App',
@@ -15,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={noto.className}>{children}</body>
     </html>
   )
 }
