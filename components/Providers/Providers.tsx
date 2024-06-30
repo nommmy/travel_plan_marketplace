@@ -5,17 +5,17 @@ export default function Providers({ children }: { children: ReactNode }) {
   return <Provider>{children}</Provider>;
 }
 
-type Plans = {
+export type Spot = {
+  id: string;
   longitude: number; //緯度
   latitude: number; //経度
   place_name: string;
-  address: string | null;
-  category: string[] | null;
-  foursquare: string | null;
-  isLandmark: boolean | null;
+  text: string;
+  address?: string;
+  category?: string[];
 };
 
-const plan = atom<Plans[]>([]);
+const plan = atom<Spot[]>([]);
 
 export const useGetPlan = () => {
   return useAtomValue(plan);

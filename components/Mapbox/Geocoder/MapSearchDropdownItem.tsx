@@ -1,13 +1,9 @@
 'use client';
 
-import type MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { css } from '@kuma-ui/core';
-import { useSetPlan } from '../Providers/Providers';
+import { useGetPlan, useSetPlan } from '../../Providers/Providers';
 import { PlusCircle } from 'react-feather';
-
-type Props = {
-  item: MapboxGeocoder.Result;
-};
+import type { Spot } from '../../Providers/Providers';
 
 const geocoderDropdownItemSubtext = css`
   color: gray;
@@ -17,6 +13,12 @@ const geocoderDropdownItemSubtext = css`
 const geocoderDropdownHolder = css`
   display: flex;
   align-items: center;
+  padding: 6px 12px;
+
+  &:hover {
+    background-color: #f3f3f3;
+    cursor: pointer;
+  }
 `;
 
 const geocoderDropdownItemTextGroup = css`
@@ -30,29 +32,34 @@ const planAddButton = css`
   height: 20px;
 `;
 
+type Props = {
+  item: Spot;
+};
+
 const MapSearchDropdownItem = ({ item }: Props) => {
   const setPlan = useSetPlan();
-  const addPlan = (e: React.MouseEvent, item: MapboxGeocoder.Result) => {
+  const plan = useGetPlan();
+  const addPlan = (e: React.MouseEvent, item: Spot) => {
     e.stopPropagation();
     e.preventDefault();
     setPlan([
       {
-        longitude: item.center[1], //緯度
-        latitude: item.center[0], //経度
-        place_name: item.text,
-        address: item?.properties?.address,
-        category: item?.properties?.category,
-        foursquare: item?.properties?.foursquare,
-        isLandmark: item?.properties?.landmark,
+        id: item.id,
+        longitude: item.longitude, //緯度
+        latitude: item.latitude, //経度
+        place_name: item.place_name,
+        text: item.text,
+        address: item?.address,
+        category: item?.category,
       },
     ]);
   };
-  
+
   return (
     <div className={geocoderDropdownHolder}>
       <div className={geocoderDropdownItemTextGroup}>
         <p>{item.text}</p>
-        <p className={geocoderDropdownItemSubtext}>{item?.properties?.address}</p>
+        <p className={geocoderDropdownItemSubtext}>{item?.address}</p>
       </div>
       <button className={planAddButton} onClick={(e) => addPlan(e, item)}>
         <PlusCircle size={ICON_SIZE} />

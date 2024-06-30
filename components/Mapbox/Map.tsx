@@ -3,11 +3,9 @@
 import { useEffect, useState, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
-import renderMapSearchDropdownItem from '@/utils/Mapbox/renderMapSearchDropdownItem';
 import { css } from '@kuma-ui/core';
+import GeocoderInput from './Geocoder/GeocoderInput';
 
 const mapWrapper = css`
   height: 100%;
@@ -33,22 +31,7 @@ export default function Map() {
       // defaultLanguageとしてjaを指定
       const language = new MapboxLanguage({ defaultLanguage: 'ja' });
 
-      const geocoder = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        // language: 'ja',
-        placeholder: 'Search',
-        flyTo: { duration: 0 },
-        limit: 5,
-        mapboxgl: mapboxgl,
-        // autocomplete: false,
-        render: (item: MapboxGeocoder.Result) => {
-          return renderMapSearchDropdownItem(item);
-        },
-        getItemValue: (item: MapboxGeocoder.Result) => item.text,
-      });
-
       map.addControl(language);
-      map.addControl(geocoder);
 
       map.on('load', () => {
         setMap(map);
@@ -62,6 +45,7 @@ export default function Map() {
   return (
     <>
       <div ref={mapContainer} className={mapWrapper} />
+      <GeocoderInput />
     </>
   );
 }
