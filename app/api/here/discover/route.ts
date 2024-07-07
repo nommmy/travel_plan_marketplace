@@ -21,8 +21,8 @@ export async function GET(request: Request) {
       data.items.map((item: DiscoverItems) => ({
         title: item.title,
         id: item.id,
-        longitude: item?.position?.lng, //緯度
-        latitude: item?.position?.lat, //経度
+        longitude: item?.position?.lng, //経度
+        latitude: item?.position?.lat, //緯度
         address: item.address,
         categories: item?.categories,
         foodTypes: item?.foodTypes,

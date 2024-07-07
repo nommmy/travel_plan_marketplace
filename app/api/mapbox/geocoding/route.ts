@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { IGeocoderFeature } from '@/utils/Mapbox/geocodingResponse.type';
+import { IGeocoderFeature } from '@/utils/mapbox/geocodingResponse.type';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -21,8 +21,8 @@ export async function GET(request: Request) {
     return NextResponse.json(
       data.features.map((feature: IGeocoderFeature) => ({
         id: feature.id,
-        longitude: feature.center[1], //緯度
-        latitude: feature.center[0], //経度
+        longitude: feature.center[0], //緯度
+        latitude: feature.center[1], //経度
         place_name: feature.place_name,
         text: feature.text,
         address: feature?.properties?.address,

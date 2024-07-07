@@ -1,6 +1,6 @@
 import { atom, Provider, useAtomValue, useSetAtom } from 'jotai';
 import type { ReactNode } from 'react';
-import type { Spot } from '@/utils/here/geocodingResponse.type';
+import type { Spot } from '@/utils/mapbox/geocodingResponse.type';
 import mapboxgl from 'mapbox-gl';
 
 export default function Providers({ children }: { children: ReactNode }) {
