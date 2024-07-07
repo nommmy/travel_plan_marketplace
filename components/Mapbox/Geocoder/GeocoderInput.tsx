@@ -3,7 +3,7 @@
 import { Search } from 'react-feather';
 import { useState } from 'react';
 import MapSearchDropdownItem from './MapSearchDropdownItem';
-import type { Spot } from '@/components/Providers/Providers';
+import type { Spot } from '@/utils/here/geocodingResponse.type';
 import { css } from '@kuma-ui/core';
 
 const geocoderWrapper = css`
@@ -94,7 +94,7 @@ const suggestionsList = css`
 const GeocoderInput = () => {
   const [result, setResult] = useState<Spot[]>([]);
 
-  //後で型つける
+  //TODO: 後で型つける
   const handleSearch = async (e: any) => {
     e.preventDefault();
     const query = e.target['search_text'].value;
@@ -102,8 +102,7 @@ const GeocoderInput = () => {
     if (!query.trim()) return;
 
     try {
-      const response = await fetch(`/api/geocoding?search_text=${query}`);
-
+      const response = await fetch(`/api/here/discover?search_text=${query}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

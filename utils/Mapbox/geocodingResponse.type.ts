@@ -26,7 +26,7 @@ export type IGeocoderFeature = {
   center: [number, number];
   geometry: IGecoderGeometry;
   context: Array<IGeocoderContext>;
-  routable_points?:	object;
+  routable_points?: object;
 };
 
 export type IGeocoderProperties = {
@@ -70,3 +70,13 @@ export enum PlaceType {
   ADDRESS = 'address',
   POI = 'poi',
 }
+
+export type Spot = {
+  id: string;
+  longitude: number; //緯度
+  latitude: number; //経度
+  place_name: string;
+  text: string;
+  address?: string;
+  category?: string[];
+};
