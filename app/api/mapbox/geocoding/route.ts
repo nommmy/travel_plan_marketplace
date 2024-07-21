@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { IGeocoderFeature } from '@/utils/mapbox/geocodingResponse.type';
+import { IGeocoderFeature } from '@/utils/types/mapbox/geocodingResponse.type';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

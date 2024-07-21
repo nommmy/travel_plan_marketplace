@@ -3,7 +3,7 @@
 import { Search } from 'react-feather';
 import { useState } from 'react';
 import MapSearchDropdownItem from './MapSearchDropdownItem';
-import type { Spot } from '@/utils/mapbox/geocodingResponse.type';
+import type { OSMData } from '@/utils/types/osm/searchResponse.type'; 
 import { css } from '@kuma-ui/core';
 
 const geocoderWrapper = css`
@@ -92,7 +92,7 @@ const suggestionsList = css`
 `;
 
 const GeocoderInput = () => {
-  const [result, setResult] = useState<Spot[]>([]);
+  const [result, setResult] = useState<OSMData[]>([]);
 
   //TODO: 後で型つける
   const handleSearch = async (e: any) => {
@@ -102,7 +102,7 @@ const GeocoderInput = () => {
     if (!query.trim()) return;
 
     try {
-      const response = await fetch(`/api/mapbox/geocoding?search_text=${query}`);
+      const response = await fetch(`/api/osm/nominatim?search_text=${query}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -126,7 +126,7 @@ const GeocoderInput = () => {
       {!!result && (
         <ul className={suggestionsList}>
           {result.map((item) => (
-            <li key={item.id}>
+            <li key={item.place_id}>
               <MapSearchDropdownItem item={item} />
             </li>
           ))}

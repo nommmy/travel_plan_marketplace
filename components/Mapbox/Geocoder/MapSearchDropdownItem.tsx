@@ -3,7 +3,7 @@
 import { css } from '@kuma-ui/core';
 import { useGetPlan, useSetPlan, useGetMap } from '../../Providers/Providers';
 import { PlusCircle } from 'react-feather';
-import type { Spot } from '@/utils/mapbox/geocodingResponse.type';
+import type { OSMData } from '@/utils/types/osm/searchResponse.type';
 
 const geocoderDropdownItemSubtext = css`
   color: gray;
@@ -33,55 +33,62 @@ const planAddButton = css`
 `;
 
 type Props = {
-  item: Spot;
+  item: OSMData;
 };
 
 const MapSearchDropdownItem = ({ item }: Props) => {
   const setPlan = useSetPlan();
   const plan = useGetPlan();
-  const addPlan = (item: Spot) => {
-    // setPlan([
-    //   {
-    //     title: item.title,
-    //     id: item.id,
-    //     longitude: item?.longitude, //経度
-    //     latitude: item?.latitude, //緯度
-    //     address: item.address,
-    //     categories: item?.categories,
-    //     foodTypes: item?.foodTypes,
-    //     media: item?.media,
-    //   },
-    // ]);
+
+  // const fetchPlaceDetail = async (place_name: string) => {
+  //   const response = await fetch(`/api/google/findplace?search_text=${place_name}`);
+  //   if (!response.ok) {
+  //     throw new Error('Network response was not ok');
+  //   }
+  //   const data = await response.json();
+  //   return data;
+  // };
+
+  // TODO: 重複対応してない
+  // TODO: ピンたてる、番号つける
+  const addPlan = async (item: OSMData) => {
     setPlan([
       {
-        id: item.id,
+        place_id: item.place_id,
+        category: item.category,
         longitude: item.longitude, //経度
         latitude: item.latitude, //緯度
-        place_name: item.place_name,
-        text: item.text,
-        address: item?.address,
-        category: item?.category,
+        type: item.type,
+        addresstype: item.addresstype,
+        name: item.name,
+        display_name: item.display_name,
       },
     ]);
   };
 
   const map = useGetMap();
-  const flyTo = (item: Spot) => {
+  // TODO: ピンたてる
+  // TODO: 詳細出す
+  const flyTo = async (item: OSMData) => {
     map &&
       map.flyTo({
-        center: [item.longitude, item.latitude],
+        center: [Number(item.longitude), Number(item.latitude)],
         duration: 0,
+        zoom: 20,
       });
   };
 
-  // 郵便番号を除いた住所を取得
-  // const addressWithoutPostalCode = item.address?.label?.startsWith('〒') ? item.address?.label?.split(' ').slice(1).join(' ') : item.address?.label;
+  const addressArray = item.display_name.split(', ');
+  const address = addressArray
+    .slice(1, addressArray.length - 2)
+    .reverse()
+    .join('');
 
   return (
     <div className={geocoderDropdownHolder}>
       <div className={geocoderDropdownItemTextGroup} onClick={() => flyTo(item)}>
-        <p>{item.text}</p>
-        <p className={geocoderDropdownItemSubtext}>{item.place_name}</p>
+        <p>{item.name}</p>
+        <p className={geocoderDropdownItemSubtext}>{address}</p>
       </div>
       <button className={planAddButton} onClick={() => addPlan(item)}>
         <PlusCircle size={ICON_SIZE} />

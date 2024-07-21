@@ -1,6 +1,6 @@
 import { atom, Provider, useAtomValue, useSetAtom } from 'jotai';
 import type { ReactNode } from 'react';
-import type { Spot } from '@/utils/mapbox/geocodingResponse.type';
+import type { OSMData as Spot } from '@/utils/types/osm/searchResponse.type';
 import mapboxgl from 'mapbox-gl';
 
 export default function Providers({ children }: { children: ReactNode }) {
@@ -22,9 +22,9 @@ const map = atom<mapboxgl.Map | null>(null);
 
 export const useGetMap = () => {
   return useAtomValue(map);
-}
+};
 
-export const useSetMap = () => {  
+export const useSetMap = () => {
   const setMap = useSetAtom(map);
   return setMap;
-}
+};

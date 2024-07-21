@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import type { DiscoverItems } from '@/utils/here/geocodingResponse.type';
+import type { DiscoverItems } from '@/utils/types/here/geocodingResponse.type';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
